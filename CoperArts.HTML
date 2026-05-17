@@ -274,7 +274,7 @@
 
     model-viewer {
       width: 720px;
-      height: 820px;
+      height: 900px;
       background: transparent;
       --poster-color: transparent;
       pointer-events: auto;
@@ -892,7 +892,8 @@
         environment-image="neutral"
         exposure="1.4"
         tone-mapping="commerce"
-        camera-orbit="0deg 75deg auto"
+        camera-orbit="0deg 85deg 105%"
+        field-of-view="28deg"
         style="left: 50%; transform: translateX(-50%) translateY(-50%);"
       ></model-viewer>
 
@@ -1297,7 +1298,7 @@
       // t goes 0→1 = 720 degrees (2 full spins)
       const targetDeg = t * 720;
       // model-viewer orbit: "Xdeg 75deg auto" = yaw, pitch, radius
-      pot.setAttribute('camera-orbit', `${targetDeg}deg 75deg auto`);
+      pot.setAttribute('camera-orbit', `${targetDeg}deg 85deg 105%`);
 
       lastT = t;
 
