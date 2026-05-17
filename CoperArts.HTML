@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copper Arts Antiques — Battaramulla, Sri Lanka</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
+
+  <!-- model-viewer for 3D GLB -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+
+  <style>
+    /* ──────────────────────────────────────────────
+       CSS VARIABLES
+    ────────────────────────────────────────────── */
+    :root {
+      --copper:     #b87333;
+      --copper-lt:  #d4956a;
+      --gold:       #c9a84c;
+      --gold-lt:    #e8c97a;
+      --verdigris:  #3a7d6e;
+      --dark:       #0d0b08;
+      --dark-mid:   #1a1510;
+      --dark-warm:  #221c14;
+      --parchment:  #e8dfc8;
+      --cream:      #f5efe0;
+      --text-main:  #d4c9b0;
+      --text-muted: #8a7d68;
+    }
+
+    /* ──────────────────────────────────────────────
+       RESET & BASE
+    ────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      color: var(--text-main);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.7;
+      overflow-x: hidden;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='4' fill='%23b87333' opacity='0.8'/%3E%3C/svg%3E") 10 10, auto;
+    }
+
+    /* ──────────────────────────────────────────────
+       NOISE / TEXTURE OVERLAY
+    ────────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+
+    /* ──────────────────────────────────────────────
+       SCROLLBAR
+    ────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--dark); }
+    ::-webkit-scrollbar-thumb { background: var(--copper); border-radius: 3px; }
+
+    /* ──────────────────────────────────────────────
+       NAVIGATION
+    ────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: linear-gradient(to bottom, rgba(13,11,8,0.95) 0%, transparent 100%);
+      transition: background 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(13,11,8,0.97);
+      border-bottom: 1px solid rgba(184,115,51,0.2);
+    }
+
+    .nav-logo {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      text-decoration: none;
+      line-height: 1.2;
+    }
+    .nav-logo span { display: block; font-size: 0.55rem; letter-spacing: 0.3em; color: var(--copper-lt); font-family: 'Cinzel', serif; font-weight: 400; text-transform: uppercase; }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold-lt); }
+
+    /* ──────────────────────────────────────────────
+       HERO SECTION
+    ────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Radial glow behind pot */
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 50% 60%, rgba(184,115,51,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 100% 50% at 50% 100%, rgba(13,11,8,0.9) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Decorative horizontal rule lines */
+    .hero-rule {
+      position: absolute;
+      left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--copper) 20%, var(--gold) 50%, var(--copper) 80%, transparent);
+      opacity: 0.35;
+    }
+    .hero-rule.top { top: 15%; }
+    .hero-rule.bottom { bottom: 15%; }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.3s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--cream);
+      letter-spacing: 0.02em;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.6s forwards;
+    }
+    .hero-title .accent {
+      background: linear-gradient(135deg, var(--gold-lt), var(--copper), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--text-muted);
+      margin-top: 1.2rem;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.9s forwards;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      margin-top: 2.5rem;
+      padding: 0.9rem 3rem;
+      border: 1px solid var(--copper);
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold-lt);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.4s;
+      opacity: 0;
+      animation: fadeUp 1s ease 1.2s forwards;
+    }
+    .hero-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--copper);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+      z-index: -1;
+    }
+    .hero-cta:hover { color: var(--dark); }
+    .hero-cta:hover::before { transform: scaleX(1); }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 1.8s forwards;
+    }
+    .scroll-hint span {
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.4em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .scroll-arrow {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--copper), transparent);
+      animation: scrollPulse 2s ease infinite;
+    }
+
+    /* ──────────────────────────────────────────────
+       3D MODEL VIEWER — STICKY PARALLAX CONTAINER
+    ────────────────────────────────────────────── */
+    #model-track {
+      position: relative;
+      height: 500vh; /* tall scroll container */
+    }
+
+    #model-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      pointer-events: none;
+      z-index: 10;
+      overflow: hidden;
+    }
+
+    model-viewer {
+      width: 520px;
+      height: 520px;
+      background: transparent;
+      --poster-color: transparent;
+      pointer-events: auto;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: left 0.05s linear;
+      filter: drop-shadow(0 0 60px rgba(184,115,51,0.35));
+    }
+
+    /* Parallax text panels */
+    .parallax-panel {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 380px;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .parallax-panel.panel-right { right: 6%; text-align: left; }
+    .parallax-panel.panel-left  { left:  6%; text-align: left; }
+
+    .panel-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 0.8rem;
+    }
+    .panel-heading {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      color: var(--cream);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .panel-text {
+      font-family: 'EB Garamond', serif;
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+    .panel-divider {
+      width: 60px;
+      height: 1px;
+      background: var(--copper);
+      margin: 1.2rem 0;
+    }
+
+    /* ──────────────────────────────────────────────
+       COLLECTIONS SECTION
+    ────────────────────────────────────────────── */
+    #collections {
+      position: relative;
+      padding: 8rem 4rem;
+      background: var(--dark-warm);
+      overflow: hidden;
+    }
+    #collections::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--copper) 30%, var(--gold) 50%, var(--copper) 70%, transparent);
+      opacity: 0.4;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .section-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      color: var(--cream);
+      line-height: 1.2;
+    }
+
+    .collections-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .collection-card {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .card-bg {
+      width: 100%;
+      height: 100%;
+      background: var(--dark-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      transition: transform 0.5s ease;
+      position: relative;
+    }
+    .collection-card:hover .card-bg { transform: scale(1.04); }
+
+    /* Decorative SVG patterns for cards */
+    .card-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.06;
+      background-image: repeating-linear-gradient(
+        45deg,
+        var(--copper) 0px,
+        var(--copper) 1px,
+        transparent 1px,
+        transparent 12px
+      );
+    }
+
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13,11,8,0.95) 0%, rgba(13,11,8,0.2) 60%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem 1.5rem;
+      transition: opacity 0.3s;
+    }
+
+    .card-category {
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--copper-lt);
+      margin-bottom: 0.4rem;
+    }
+    .card-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.1rem;
+      color: var(--cream);
+      line-height: 1.3;
+    }
+    .card-desc {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    .card-corner {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      width: 24px; height: 24px;
+      border-top: 1px solid var(--copper);
+      border-right: 1px solid var(--copper);
+      opacity: 0.5;
+    }
+    .card-corner-bl {
+      position: absolute;
+      bottom: 1rem; left: 1rem;
+      width: 24px; height: 24px;
+      border-bottom: 1px solid var(--copper);
+      border-left: 1px solid var(--copper);
+      opacity: 0.5;
+    }
+
+    /* ──────────────────────────────────────────────
+       WHY US / STORY
+    ────────────────────────────────────────────── */
+    #story {
+      padding: 8rem 4rem;
+      background: var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+    #story::before {
+      content: '"';
+      position: absolute;
+      top: -2rem;
+      left: 3rem;
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 20rem;
+      color: var(--copper);
+      opacity: 0.04;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .story-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .story-text { }
+    .story-text .section-eyebrow { text-align: left; }
+    .story-text .section-title { text-align: left; font-size: clamp(1.5rem, 3vw, 2.5rem); margin-bottom: 1.5rem; }
+    .story-text p { font-size: 1rem; color: var(--text-muted); margin-bottom: 1rem; }
+
+    .story-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .stat-box {
+      padding: 1.5rem;
+      border: 1px solid rgba(184,115,51,0.2);
+      position: relative;
+    }
+    .stat-box::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0;
+      height: 2px;
+      width: 40px;
+      background: var(--copper);
+    }
+    .stat-number {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 2.2rem;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ──────────────────────────────────────────────
+       MARQUEE
+    ────────────────────────────────────────────── */
+    .marquee-section {
+      padding: 2rem 0;
+      background: var(--copper);
+      overflow: hidden;
+      position: relative;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      animation: marquee 25s linear infinite;
+      width: max-content;
+    }
+    .marquee-item {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--dark);
+      padding: 0 3rem;
+      white-space: nowrap;
+      opacity: 0.9;
+    }
+    .marquee-dot {
+      color: var(--dark);
+      opacity: 0.4;
+    }
+
+    /* ──────────────────────────────────────────────
+       TESTIMONIALS / TRUST
+    ────────────────────────────────────────────── */
+    #trust {
+      padding: 7rem 4rem;
+      background: var(--dark-warm);
+    }
+
+    .trust-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+
+    .feature-item {
+      text-align: center;
+    }
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .feature-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    .feature-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ──────────────────────────────────────────────
+       CONTACT / FOOTER
+    ────────────────────────────────────────────── */
+    #contact {
+      padding: 8rem 4rem 5rem;
+      background: var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background ornament */
+    #contact::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 110%, rgba(184,115,51,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .contact-left .section-title { text-align: left; }
+
+    .contact-detail {
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+    }
+    .contact-icon {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(184,115,51,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      color: var(--copper);
+    }
+    .contact-detail-text strong {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 0.3rem;
+    }
+    .contact-detail-text span {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .hours-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+    .hours-table tr {
+      border-bottom: 1px solid rgba(184,115,51,0.1);
+    }
+    .hours-table td {
+      padding: 0.55rem 0;
+    }
+    .hours-table td:first-child {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding-right: 1.5rem;
+    }
+    .hours-table .closed-day td { opacity: 0.4; }
+
+    /* Contact form */
+    .contact-form-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+    .form-group label {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(184,115,51,0.25);
+      border-bottom-color: rgba(184,115,51,0.5);
+      padding: 0.8rem 1rem;
+      color: var(--parchment);
+      font-family: 'EB Garamond', serif;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s;
+      resize: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--copper);
+      background: rgba(184,115,51,0.04);
+    }
+    .form-group textarea { height: 100px; }
+
+    .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      background: transparent;
+      border: 1px solid var(--copper);
+      color: var(--gold-lt);
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      margin-top: 0.5rem;
+    }
+    .submit-btn:hover {
+      background: var(--copper);
+      color: var(--dark);
+    }
+
+    /* ──────────────────────────────────────────────
+       FOOTER BAR
+    ────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid rgba(184,115,51,0.15);
+      padding: 2rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--dark);
+    }
+    footer .footer-logo {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.75rem;
+      color: var(--gold);
+    }
+    footer p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.1em;
+    }
+
+    /* ──────────────────────────────────────────────
+       ORNAMENTAL SVG ELEMENTS
+    ────────────────────────────────────────────── */
+    .ornament {
+      display: block;
+      margin: 1rem auto;
+      opacity: 0.4;
+    }
+
+    /* ──────────────────────────────────────────────
+       ANIMATIONS
+    ────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.2); }
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) translateX(-50%); }
+      50%       { transform: translateY(-8px) translateX(-50%); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ──────────────────────────────────────────────
+       RESPONSIVE
+    ────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; }
+      .nav-links { display: none; }
+      .story-inner, .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .collections-grid { grid-template-columns: 1fr 1fr; }
+      .features-grid { grid-template-columns: 1fr; gap: 2rem; }
+      model-viewer { width: 340px; height: 340px; }
+      .parallax-panel { max-width: 260px; }
+      #collections, #story, #trust, #contact, #hero { padding: 5rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════ -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">
+      Copper Arts<span>Antiques · Est. Battaramulla</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#collections">Collections</a></li>
+      <li><a href="#story">Our Story</a></li>
+      <li><a href="#contact">Visit Us</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-rule top"></div>
+    <div class="hero-rule bottom"></div>
+
+    <!-- Ambient background -->
+    <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.15" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <radialGradient id="rg1" cx="50%" cy="50%">
+          <stop offset="0%" stop-color="#b87333" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#0d0b08" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="720" cy="450" rx="600" ry="450" fill="url(#rg1)"/>
+    </svg>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">✦ Battaramulla, Sri Lanka ✦</p>
+      <h1 class="hero-title">
+        <span class="accent">Copper Arts</span><br/>
+        Antiques
+      </h1>
+      <p class="hero-sub">Guardians of history. Curators of time.</p>
+      <a href="#collections" class="hero-cta">Explore the Collection</a>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       3D MODEL PARALLAX TRACK
+  ═══════════════════════════════════════════ -->
+  <div id="model-track">
+    <div id="model-sticky">
+
+      <!-- The 3D model -->
+      <model-viewer
+        id="the-pot"
+        src="animated_bronze_ding_food_vessel_5th_c_bce.glb"
+        alt="Animated bronze Ding food vessel 5th C BCE"
+        autoplay
+        auto-rotate
+        auto-rotate-delay="0"
+        rotation-per-second="12deg"
+        camera-controls
+        disable-zoom
+        shadow-intensity="1.5"
+        environment-image="neutral"
+        exposure="1.4"
+        tone-mapping="commerce"
+        style="left: 50%; transform: translateX(-50%) translateY(-50%);"
+      ></model-viewer>
+
+      <!-- Panel 1: right side -->
+      <div class="parallax-panel panel-right" id="panel1">
+        <p class="panel-label">✦ Our Heritage</p>
+        <h2 class="panel-heading">Ancient Craftsmanship,<br/>Eternal Beauty</h2>
+        <div class="panel-divider"></div>
+        <p class="panel-text">Each piece in our collection carries centuries of artisanal wisdom. From bronze vessels of ancient dynasties to hand-carved colonial furniture — we preserve what time has perfected.</p>
+      </div>
+
+      <!-- Panel 2: left side -->
+      <div class="parallax-panel panel-left" id="panel2" style="opacity:0">
+        <p class="panel-label">✦ Authenticity</p>
+        <h2 class="panel-heading">Verified Origins,<br/>Certified Provenance</h2>
+        <div class="panel-divider"></div>
+        <p class="panel-text">Every antique is sourced with meticulous care and verified for authenticity. We honour the stories behind each object — because true value lies in its history.</p>
+      </div>
+
+      <!-- Panel 3: right side -->
+      <div class="parallax-panel panel-right" id="panel3" style="opacity:0">
+        <p class="panel-label">✦ Curation</p>
+        <h2 class="panel-heading">Rare Finds,<br/>Thoughtfully Chosen</h2>
+        <div class="panel-divider"></div>
+        <p class="panel-text">Our buyers travel across Sri Lanka and beyond, seeking objects of genuine historical and aesthetic significance. No mass reproductions — only the real and the remarkable.</p>
+      </div>
+
+      <!-- Panel 4: left side -->
+      <div class="parallax-panel panel-left" id="panel4" style="opacity:0">
+        <p class="panel-label">✦ Visit Us</p>
+        <h2 class="panel-heading">Open Six Days<br/>a Week</h2>
+        <div class="panel-divider"></div>
+        <p class="panel-text">Come browse our ever-changing collection in person. Located at 733/T-1, New Kandy Road, Thalangama North — just off the Battaramulla junction. Mon–Fri 9am–6:30pm, Sat 9am–2pm.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       MARQUEE
+  ═══════════════════════════════════════════ -->
+  <div class="marquee-section">
+    <div class="marquee-track" id="marquee-track">
+      <span class="marquee-item">Bronze & Copper Vessels <span class="marquee-dot">◆</span></span>
+      <span class="marquee-item">Colonial Furniture <span class="marquee-dot">◆</span></span>
+      <span class="marquee-item">Ancient Ceramics <span class="marquee-dot">◆</span></span>
+      <span class="marquee-item">Brass Figurines <span class="marquee-dot">◆</span></span>
+      <span class="marquee-item">Heritage Jewellery <span class="marquee-dot">◆</span></span>
+      <span class="marquee-item">Rare Manuscripts <span class="marquee-dot">◆</span></span>
+      <span class="marquee-item">Ceremonial Objects <span class="marquee-dot">◆</span></span>
+      <span class="marquee-item">Bronze & Copper Vessels <span class="marquee-dot">◆</span></span>
+      <span class="marquee-item">Colonial Furniture <span class="marquee-dot">◆</span></span>
+      <span class="marquee-item">Ancient Ceramics <span class="marquee-dot">◆</span></span>
+      <span class="marquee-item">Brass Figurines <span class="marquee-dot">◆</span></span>
+      <span class="marquee-item">Heritage Jewellery <span class="marquee-dot">◆</span></span>
+      <span class="marquee-item">Rare Manuscripts <span class="marquee-dot">◆</span></span>
+      <span class="marquee-item">Ceremonial Objects <span class="marquee-dot">◆</span></span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       COLLECTIONS
+  ═══════════════════════════════════════════ -->
+  <section id="collections">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">✦ What We Carry ✦</p>
+      <h2 class="section-title">The Collection</h2>
+    </div>
+
+    <div class="collections-grid">
+      <!-- Card 1 -->
+      <div class="collection-card reveal">
+        <div class="card-bg" style="background: linear-gradient(135deg, #1a1208, #2a1e10);">
+          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="60" cy="75" rx="32" ry="10" fill="#b87333" opacity="0.3"/>
+            <path d="M35 72 Q38 35 45 28 Q55 18 60 18 Q65 18 75 28 Q82 35 85 72 Z" fill="#b87333" opacity="0.7"/>
+            <ellipse cx="60" cy="72" rx="25" ry="6" fill="#d4956a" opacity="0.5"/>
+            <ellipse cx="60" cy="28" rx="15" ry="10" fill="#c9a84c" opacity="0.8"/>
+            <rect x="32" y="72" width="8" height="20" rx="2" fill="#8b5e2f" opacity="0.8"/>
+            <rect x="80" y="72" width="8" height="20" rx="2" fill="#8b5e2f" opacity="0.8"/>
+          </svg>
+        </div>
+        <div class="card-corner"></div>
+        <div class="card-corner-bl"></div>
+        <div class="card-overlay">
+          <p class="card-category">Metal Arts</p>
+          <h3 class="card-title">Bronze & Copper Vessels</h3>
+          <p class="card-desc">Dynasty-era urns, ritual vessels & ceremonial ware</p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="collection-card reveal">
+        <div class="card-bg" style="background: linear-gradient(135deg, #0f1a0f, #1a2a12);">
+          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="40" width="80" height="55" rx="2" fill="#4a3820" stroke="#b87333" stroke-width="1.5" opacity="0.8"/>
+            <rect x="28" y="20" width="64" height="25" rx="1" fill="#3a7d6e" opacity="0.6"/>
+            <line x1="20" y1="55" x2="100" y2="55" stroke="#b87333" stroke-width="0.8" opacity="0.5"/>
+            <rect x="50" y="78" width="20" height="17" fill="#2a1e10" stroke="#c9a84c" stroke-width="1"/>
+            <circle cx="60" cy="87" r="3" fill="#c9a84c" opacity="0.8"/>
+          </svg>
+        </div>
+        <div class="card-corner"></div>
+        <div class="card-corner-bl"></div>
+        <div class="card-overlay">
+          <p class="card-category">Furniture</p>
+          <h3 class="card-title">Colonial Timber Furniture</h3>
+          <p class="card-desc">Teak & ebony pieces from the colonial era</p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="collection-card reveal">
+        <div class="card-bg" style="background: linear-gradient(135deg, #1a0f0f, #2a1515);">
+          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M60 15 L68 38 L93 38 L73 54 L80 77 L60 63 L40 77 L47 54 L27 38 L52 38 Z" fill="#c9a84c" opacity="0.8"/>
+            <circle cx="60" cy="60" r="18" fill="none" stroke="#b87333" stroke-width="1.5" opacity="0.5"/>
+            <circle cx="60" cy="60" r="28" fill="none" stroke="#b87333" stroke-width="0.5" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="card-corner"></div>
+        <div class="card-corner-bl"></div>
+        <div class="card-overlay">
+          <p class="card-category">Jewellery & Ornaments</p>
+          <h3 class="card-title">Heritage Jewellery</h3>
+          <p class="card-desc">Gold, silver & gemstone pieces of Sri Lankan craft</p>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="collection-card reveal">
+        <div class="card-bg" style="background: linear-gradient(135deg, #0f1520, #1a2035);">
+          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="25" width="60" height="75" rx="2" fill="#e8dfc8" opacity="0.15" stroke="#b87333" stroke-width="1"/>
+            <line x1="38" y1="40" x2="82" y2="40" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
+            <line x1="38" y1="50" x2="82" y2="50" stroke="#c9a84c" stroke-width="0.8" opacity="0.3"/>
+            <line x1="38" y1="60" x2="75" y2="60" stroke="#c9a84c" stroke-width="0.8" opacity="0.3"/>
+            <line x1="38" y1="70" x2="78" y2="70" stroke="#c9a84c" stroke-width="0.8" opacity="0.3"/>
+            <circle cx="60" cy="30" r="4" fill="#b87333" opacity="0.8"/>
+          </svg>
+        </div>
+        <div class="card-corner"></div>
+        <div class="card-corner-bl"></div>
+        <div class="card-overlay">
+          <p class="card-category">Manuscripts</p>
+          <h3 class="card-title">Ola Leaf Manuscripts</h3>
+          <p class="card-desc">Preserved palm-leaf texts & historical documents</p>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="collection-card reveal">
+        <div class="card-bg" style="background: linear-gradient(135deg, #1a1520, #0f0f1a);">
+          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M60 20 Q80 30 85 55 Q85 80 60 95 Q35 80 35 55 Q40 30 60 20Z" fill="#3a7d6e" opacity="0.4" stroke="#b87333" stroke-width="1.5"/>
+            <path d="M60 30 Q75 38 78 58 Q76 72 60 82 Q44 72 42 58 Q45 38 60 30Z" fill="#b87333" opacity="0.3"/>
+            <circle cx="60" cy="57" r="10" fill="#c9a84c" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="card-corner"></div>
+        <div class="card-corner-bl"></div>
+        <div class="card-overlay">
+          <p class="card-category">Ceramics</p>
+          <h3 class="card-title">Ancient Pottery & Urns</h3>
+          <p class="card-desc">Fired clay artifacts from pre-colonial civilisations</p>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="collection-card reveal">
+        <div class="card-bg" style="background: linear-gradient(135deg, #1a1208, #201808);">
+          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M60 15 Q70 30 85 35 Q75 50 78 65 Q65 72 60 88 Q55 72 42 65 Q45 50 35 35 Q50 30 60 15Z" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.8"/>
+            <circle cx="60" cy="52" r="12" fill="#b87333" opacity="0.5"/>
+            <path d="M52 44 L68 44 L72 60 L60 68 L48 60 Z" fill="#c9a84c" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="card-corner"></div>
+        <div class="card-corner-bl"></div>
+        <div class="card-overlay">
+          <p class="card-category">Ceremonial</p>
+          <h3 class="card-title">Religious & Ritual Objects</h3>
+          <p class="card-desc">Temple brass, oil lamps, devotional sculptures</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       STORY
+  ═══════════════════════════════════════════ -->
+  <section id="story">
+    <div class="story-inner">
+      <div class="story-text reveal">
+        <p class="section-eyebrow">✦ Our Story</p>
+        <h2 class="section-title">Where History<br/>Finds a Home</h2>
+        <p>Copper Arts Antiques began with a simple belief: that objects of historical significance deserve to be cherished, not forgotten. Nestled in Battaramulla, we have spent years building relationships with collectors, estates, and heritage custodians across Sri Lanka.</p>
+        <p>Our collection spans centuries and cultures — from ancient bronze ritual vessels to Dutch colonial furniture, from Kandyan-era jewellery to Buddhist ceremonial objects. Each piece is carefully authenticated, documented, and presented with the reverence it deserves.</p>
+        <p style="font-style: italic; color: var(--copper-lt);">"An antique is not merely old — it is a conversation with the past."</p>
+      </div>
+
+      <div class="story-stats reveal">
+        <div class="stat-box">
+          <div class="stat-number">20+</div>
+          <div class="stat-label">Years of Expertise</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">Curated Pieces</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">6</div>
+          <div class="stat-label">Days a Week Open</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Authenticated Items</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       TRUST / FEATURES
+  ═══════════════════════════════════════════ -->
+  <section id="trust">
+    <div class="trust-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">✦ Why Collectors Choose Us ✦</p>
+        <h2 class="section-title">The Copper Arts Promise</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-item reveal">
+          <span class="feature-icon">🏺</span>
+          <h3 class="feature-title">Authenticated Origins</h3>
+          <p class="feature-desc">Every piece is traced to its source and verified by specialists before entering our collection.</p>
+        </div>
+        <div class="feature-item reveal">
+          <span class="feature-icon">🤝</span>
+          <h3 class="feature-title">Personal Curation</h3>
+          <p class="feature-desc">We work closely with collectors to find pieces that match their vision, budget and space.</p>
+        </div>
+        <div class="feature-item reveal">
+          <span class="feature-icon">📜</span>
+          <h3 class="feature-title">Documented Provenance</h3>
+          <p class="feature-desc">Detailed records accompany each significant piece — because history deserves to be known.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       CONTACT
+  ═══════════════════════════════════════════ -->
+  <section id="contact">
+    <!-- Top ornamental line -->
+    <div style="height:1px;background:linear-gradient(to right,transparent,var(--copper) 30%,var(--gold) 50%,var(--copper) 70%,transparent);opacity:0.3;margin-bottom:6rem;"></div>
+
+    <div class="contact-inner">
+      <div class="contact-left reveal">
+        <p class="section-eyebrow">✦ Come Find Us</p>
+        <h2 class="section-title" style="text-align:left;font-size:clamp(1.8rem,3.5vw,2.8rem);margin-bottom:2.5rem;">Visit the<br/>Gallery</h2>
+
+        <div class="contact-detail">
+          <div class="contact-icon">📍</div>
+          <div class="contact-detail-text">
+            <strong>Location</strong>
+            <span>733/T-1, New Kandy Road,<br/>Thalangama North, Battaramulla,<br/>Sri Lanka</span>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-icon">🕗</div>
+          <div class="contact-detail-text">
+            <strong>Opening Hours</strong>
+            <table class="hours-table">
+              <tr><td>Monday</td><td>9:00 am – 6:30 pm</td></tr>
+              <tr><td>Tuesday</td><td>9:00 am – 6:30 pm</td></tr>
+              <tr><td>Wednesday</td><td>9:00 am – 6:30 pm</td></tr>
+              <tr><td>Thursday</td><td>9:00 am – 6:30 pm</td></tr>
+              <tr><td>Friday</td><td>9:00 am – 6:30 pm</td></tr>
+              <tr><td>Saturday</td><td>9:00 am – 2:00 pm</td></tr>
+              <tr class="closed-day"><td>Sunday</td><td>Closed</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <p class="contact-form-title">✦ Send an Enquiry</p>
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="Full name" />
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="your@email.com" />
+        </div>
+        <div class="form-group">
+          <label>What Are You Looking For?</label>
+          <textarea placeholder="Tell us about the type of antique you're searching for…"></textarea>
+        </div>
+        <button class="submit-btn" onclick="this.textContent='✦ Message Sent ✦'; this.style.borderColor='var(--gold)'; this.style.color='var(--gold)';">
+          Send Enquiry ✦
+        </button>
+      </div>
+    </div>
+
+    <!-- Bottom ornamental line -->
+    <div style="height:1px;background:linear-gradient(to right,transparent,var(--copper) 30%,var(--gold) 50%,var(--copper) 70%,transparent);opacity:0.3;margin-top:6rem;"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-logo">Copper Arts Antiques</div>
+    <p>© 2025 · Battaramulla, Sri Lanka · All Rights Reserved</p>
+    <p style="font-style:italic;color:var(--copper-lt);">Guardians of history since the beginning</p>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════ -->
+  <script>
+    // ─── NAV SCROLL ───────────────────────────
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ─── REVEAL ON SCROLL ─────────────────────
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => revealObs.observe(el));
+
+    // ─── MODEL PARALLAX SCROLL ────────────────
+    const track    = document.getElementById('model-track');
+    const pot      = document.getElementById('the-pot');
+    const panel1   = document.getElementById('panel1');
+    const panel2   = document.getElementById('panel2');
+    const panel3   = document.getElementById('panel3');
+    const panel4   = document.getElementById('panel4');
+
+    // Positions: percent of viewport width for the LEFT edge of the pot
+    // Pot is 520px wide, so center positions:
+    // Left-ish:  10% from left  → left: calc(10vw)
+    // Center:    50%            → left: calc(50vw - 260px)
+    // Right-ish: calc(90vw - 520px)
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function updateParallax() {
+      const rect    = track.getBoundingClientRect();
+      const trackH  = track.offsetHeight;
+      const viewH   = window.innerHeight;
+      const scrolled = -rect.top; // how many px we've scrolled into the track
+      const total    = trackH - viewH;
+      const t        = Math.max(0, Math.min(1, scrolled / total)); // 0→1
+
+      // Waypoints (t values) and their pot left positions (px from viewport left)
+      // t=0:   center (hero intro)
+      // t=0.2: left
+      // t=0.4: right
+      // t=0.6: left
+      // t=0.8: right
+      // t=1:   center (footer)
+
+      const vw = window.innerWidth;
+      const potW = Math.min(520, vw * 0.45);
+
+      const waypoints = [
+        { t: 0,    x: (vw - potW) / 2 },       // center
+        { t: 0.18, x: vw * 0.06 },             // left
+        { t: 0.38, x: vw - potW - vw * 0.06 }, // right
+        { t: 0.58, x: vw * 0.06 },             // left
+        { t: 0.78, x: vw - potW - vw * 0.06 }, // right
+        { t: 1.0,  x: (vw - potW) / 2 },       // center
+      ];
+
+      // Find segment
+      let seg = waypoints.length - 2;
+      for (let i = 0; i < waypoints.length - 1; i++) {
+        if (t >= waypoints[i].t && t < waypoints[i + 1].t) { seg = i; break; }
+      }
+      const w0 = waypoints[seg];
+      const w1 = waypoints[seg + 1];
+      const localT = (t - w0.t) / (w1.t - w0.t);
+      const eased  = localT < 0.5
+        ? 2 * localT * localT
+        : -1 + (4 - 2 * localT) * localT; // ease in-out quad
+
+      const potLeft = lerp(w0.x, w1.x, eased);
+
+      pot.style.left = potLeft + 'px';
+      pot.style.transform = 'translateY(-50%)';
+      pot.style.width  = potW + 'px';
+      pot.style.height = potW + 'px';
+
+      // Panel visibility based on scroll position
+      // Panel 1 (right): t 0.1-0.3
+      // Panel 2 (left):  t 0.3-0.5
+      // Panel 3 (right): t 0.5-0.7
+      // Panel 4 (left):  t 0.7-0.9
+      function panelOpacity(tStart, tEnd) {
+        const fade = 0.08;
+        if (t < tStart) return 0;
+        if (t < tStart + fade) return (t - tStart) / fade;
+        if (t < tEnd - fade) return 1;
+        if (t < tEnd) return (tEnd - t) / fade;
+        return 0;
+      }
+
+      panel1.style.opacity = panelOpacity(0.05, 0.32);
+      panel2.style.opacity = panelOpacity(0.28, 0.52);
+      panel3.style.opacity = panelOpacity(0.48, 0.72);
+      panel4.style.opacity = panelOpacity(0.68, 0.93);
+    }
+
+    window.addEventListener('scroll', updateParallax, { passive: true });
+    updateParallax();
+
+    // ─── LOAD FALLBACK: if model-viewer fails, show decorative SVG ───
+    const mv = document.getElementById('the-pot');
+    mv.addEventListener('error', () => {
+      // Replace with gorgeous inline SVG bronze pot
+      const container = document.createElement('div');
+      container.style.cssText = `
+        width: 420px; height: 420px;
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex; align-items: center; justify-content: center;
+        animation: potFloat 6s ease-in-out infinite;
+        filter: drop-shadow(0 0 60px rgba(184,115,51,0.45));
+      `;
+      container.innerHTML = `
+        <svg width="320" height="380" viewBox="0 0 320 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Lid -->
+          <g id="pot-lid">
+            <ellipse cx="160" cy="82" rx="78" ry="18" fill="#8b5e2f" opacity="0.9"/>
+            <ellipse cx="160" cy="78" rx="72" ry="16" fill="#b87333" opacity="0.95"/>
+            <ellipse cx="160" cy="72" rx="50" ry="14" fill="#c9a84c" opacity="0.7"/>
+            <ellipse cx="160" cy="65" rx="35" ry="12" fill="#b87333" opacity="0.8"/>
+            <!-- Lid knob -->
+            <ellipse cx="160" cy="52" rx="18" ry="8" fill="#c9a84c" opacity="0.9"/>
+            <ellipse cx="160" cy="46" rx="12" ry="6" fill="#e8c97a" opacity="0.8"/>
+            <ellipse cx="160" cy="40" rx="8" ry="5" fill="#c9a84c" opacity="0.9"/>
+            <!-- Decorative line on lid -->
+            <path d="M95 76 Q160 68 225 76" stroke="#e8c97a" stroke-width="1.5" opacity="0.5" fill="none"/>
+          </g>
+
+          <!-- Body shadow -->
+          <ellipse cx="160" cy="360" rx="85" ry="12" fill="#b87333" opacity="0.15"/>
+
+          <!-- Main body -->
+          <path d="M82 90 Q78 140 75 185 Q72 235 85 265 Q105 300 160 305 Q215 300 235 265 Q248 235 245 185 Q242 140 238 90 Z"
+                fill="#8b5e2f" opacity="0.95"/>
+
+          <!-- Body sheen -->
+          <path d="M100 90 Q96 140 94 185 Q92 225 103 255 Q120 290 160 295 Q200 290 217 255 Q228 225 226 185 Q224 140 220 90 Z"
+                fill="#b87333" opacity="0.85"/>
+
+          <!-- Verdigris patina patches -->
+          <path d="M110 150 Q130 145 145 155 Q140 170 115 168 Z" fill="#3a7d6e" opacity="0.4"/>
+          <path d="M185 200 Q205 194 215 205 Q210 218 188 215 Z" fill="#3a7d6e" opacity="0.35"/>
+          <path d="M95 220 Q110 215 120 223 Q116 233 98 231 Z" fill="#3a7d6e" opacity="0.3"/>
+
+          <!-- Decorative band top -->
+          <path d="M82 90 Q160 84 238 90 Q238 104 160 110 Q82 104 82 90 Z" fill="#c9a84c" opacity="0.5"/>
+
+          <!-- Decorative pattern middle band -->
+          <rect x="78" y="175" width="164" height="3" fill="#c9a84c" opacity="0.4" rx="1"/>
+          <rect x="80" y="185" width="160" height="1.5" fill="#e8c97a" opacity="0.3" rx="1"/>
+
+          <!-- Body markings -->
+          <path d="M120 120 L120 170 M140 115 L140 168 M160 112 L160 168 M180 115 L180 168 M200 120 L200 170"
+                stroke="#e8c97a" stroke-width="0.8" opacity="0.25"/>
+
+          <!-- Handles -->
+          <path d="M82 130 Q52 130 48 155 Q48 180 82 178" stroke="#b87333" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.85"/>
+          <path d="M238 130 Q268 130 272 155 Q272 180 238 178" stroke="#b87333" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.85"/>
+          <path d="M82 130 Q52 130 48 155 Q48 180 82 178" stroke="#c9a84c" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.5"/>
+          <path d="M238 130 Q268 130 272 155 Q272 180 238 178" stroke="#c9a84c" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.5"/>
+
+          <!-- Legs -->
+          <path d="M120 302 Q115 335 108 360 Q118 368 130 368 Q132 338 128 306 Z" fill="#8b5e2f" opacity="0.9"/>
+          <path d="M160 305 Q158 340 158 365 Q168 370 178 365 Q178 340 176 305 Z" fill="#8b5e2f" opacity="0.9"/>
+          <path d="M200 302 Q205 335 212 360 Q202 368 190 368 Q188 338 192 306 Z" fill="#8b5e2f" opacity="0.9"/>
+
+          <!-- Legs sheen -->
+          <path d="M122 302 Q118 332 112 356" stroke="#b87333" stroke-width="4" opacity="0.5" fill="none"/>
+          <path d="M162 305 Q161 336 161 362" stroke="#b87333" stroke-width="4" opacity="0.5" fill="none"/>
+          <path d="M198 302 Q203 332 208 356" stroke="#b87333" stroke-width="4" opacity="0.5" fill="none"/>
+        </svg>
+      `;
+
+      // Animate the lid
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes potFloat { 0%,100%{transform:translate(-50%,-50%) translateY(0)} 50%{transform:translate(-50%,-50%) translateY(-12px)} }
+        @keyframes lidLift  { 0%,40%,100%{transform:translateY(0)} 50%,90%{transform:translateY(-40px)} }
+        #pot-lid { transform-origin: 160px 82px; animation: lidLift 5s ease-in-out infinite; }
+      `;
+      document.head.appendChild(style);
+
+      mv.parentNode.insertBefore(container, mv);
+      mv.remove();
+
+      // Position update needs to target container now
+      window._potEl = container;
+    });
+
+    // Override position updates if fallback SVG is used
+    const origUpdate = updateParallax;
+    window.addEventListener('scroll', () => {
+      if (window._potEl) {
+        const vw = window.innerWidth;
+        const potW = 420;
+        const track  = document.getElementById('model-track');
+        const viewH  = window.innerHeight;
+        const rect   = track.getBoundingClientRect();
+        const scrolled = -rect.top;
+        const total  = track.offsetHeight - viewH;
+        const t = Math.max(0, Math.min(1, scrolled / total));
+
+        const waypoints = [
+          { t: 0,    x: (vw - potW) / 2 },
+          { t: 0.18, x: vw * 0.06 },
+          { t: 0.38, x: vw - potW - vw * 0.06 },
+          { t: 0.58, x: vw * 0.06 },
+          { t: 0.78, x: vw - potW - vw * 0.06 },
+          { t: 1.0,  x: (vw - potW) / 2 },
+        ];
+
+        let seg = waypoints.length - 2;
+        for (let i = 0; i < waypoints.length - 1; i++) {
+          if (t >= waypoints[i].t && t < waypoints[i + 1].t) { seg = i; break; }
+        }
+        const w0 = waypoints[seg];
+        const w1 = waypoints[seg + 1];
+        const localT = (t - w0.t) / (w1.t - w0.t);
+        const eased  = localT < 0.5 ? 2*localT*localT : -1+(4-2*localT)*localT;
+        const potLeft = w0.x + (w1.x - w0.x) * eased;
+
+        window._potEl.style.left  = potLeft + 'px';
+        window._potEl.style.top   = '50%';
+        window._potEl.style.transform = 'translateY(-50%)';
+        window._potEl.style.position  = 'absolute';
+      }
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
