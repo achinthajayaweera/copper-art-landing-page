@@ -269,20 +269,20 @@
       width: 100%;
       pointer-events: none;
       z-index: 10;
-      overflow: hidden;
+      overflow: visible;
     }
 
     model-viewer {
-      width: 520px;
-      height: 520px;
+      width: 720px;
+      height: 820px;
       background: transparent;
       --poster-color: transparent;
       pointer-events: auto;
       position: absolute;
-      top: 50%;
+      top: 55%;
       transform: translateY(-50%);
-      transition: left 0.05s linear;
-      filter: drop-shadow(0 0 60px rgba(184,115,51,0.35));
+      transition: left 0.08s linear;
+      filter: drop-shadow(0 0 80px rgba(184,115,51,0.45));
     }
 
     /* Parallax text panels */
@@ -885,15 +885,14 @@
         src="animated_bronze_ding_food_vessel_5th_c_bce.glb"
         alt="Animated bronze Ding food vessel 5th C BCE"
         autoplay
-        auto-rotate
-        auto-rotate-delay="0"
-        rotation-per-second="12deg"
         camera-controls
         disable-zoom
+        disable-pan
         shadow-intensity="1.5"
         environment-image="neutral"
         exposure="1.4"
         tone-mapping="commerce"
+        camera-orbit="0deg 75deg auto"
         style="left: 50%; transform: translateX(-50%) translateY(-50%);"
       ></model-viewer>
 
@@ -1246,43 +1245,34 @@
     const panel3   = document.getElementById('panel3');
     const panel4   = document.getElementById('panel4');
 
-    // Positions: percent of viewport width for the LEFT edge of the pot
-    // Pot is 520px wide, so center positions:
-    // Left-ish:  10% from left  → left: calc(10vw)
-    // Center:    50%            → left: calc(50vw - 260px)
-    // Right-ish: calc(90vw - 520px)
-
     function lerp(a, b, t) { return a + (b - a) * t; }
 
+    // Track total rotation degrees driven by scroll
+    let totalRotationDeg = 0;
+    let lastT = 0;
+
     function updateParallax() {
-      const rect    = track.getBoundingClientRect();
-      const trackH  = track.offsetHeight;
-      const viewH   = window.innerHeight;
-      const scrolled = -rect.top; // how many px we've scrolled into the track
+      const rect     = track.getBoundingClientRect();
+      const trackH   = track.offsetHeight;
+      const viewH    = window.innerHeight;
+      const scrolled = -rect.top;
       const total    = trackH - viewH;
-      const t        = Math.max(0, Math.min(1, scrolled / total)); // 0→1
+      const t        = Math.max(0, Math.min(1, scrolled / total));
 
-      // Waypoints (t values) and their pot left positions (px from viewport left)
-      // t=0:   center (hero intro)
-      // t=0.2: left
-      // t=0.4: right
-      // t=0.6: left
-      // t=0.8: right
-      // t=1:   center (footer)
-
-      const vw = window.innerWidth;
-      const potW = Math.min(520, vw * 0.45);
+      const vw   = window.innerWidth;
+      // Pot width: 720px max, but never more than 55vw
+      const potW = Math.min(720, vw * 0.55);
+      const potH = potW * 1.14; // keep aspect ratio (820/720)
 
       const waypoints = [
-        { t: 0,    x: (vw - potW) / 2 },       // center
-        { t: 0.18, x: vw * 0.06 },             // left
-        { t: 0.38, x: vw - potW - vw * 0.06 }, // right
-        { t: 0.58, x: vw * 0.06 },             // left
-        { t: 0.78, x: vw - potW - vw * 0.06 }, // right
-        { t: 1.0,  x: (vw - potW) / 2 },       // center
+        { t: 0,    x: (vw - potW) / 2 },           // center
+        { t: 0.18, x: vw * 0.04 },                  // left
+        { t: 0.38, x: vw - potW - vw * 0.04 },      // right
+        { t: 0.58, x: vw * 0.04 },                  // left
+        { t: 0.78, x: vw - potW - vw * 0.04 },      // right
+        { t: 1.0,  x: (vw - potW) / 2 },            // center
       ];
 
-      // Find segment
       let seg = waypoints.length - 2;
       for (let i = 0; i < waypoints.length - 1; i++) {
         if (t >= waypoints[i].t && t < waypoints[i + 1].t) { seg = i; break; }
@@ -1292,20 +1282,26 @@
       const localT = (t - w0.t) / (w1.t - w0.t);
       const eased  = localT < 0.5
         ? 2 * localT * localT
-        : -1 + (4 - 2 * localT) * localT; // ease in-out quad
+        : -1 + (4 - 2 * localT) * localT;
 
       const potLeft = lerp(w0.x, w1.x, eased);
 
-      pot.style.left = potLeft + 'px';
+      pot.style.left   = potLeft + 'px';
+      pot.style.top    = '55%';
       pot.style.transform = 'translateY(-50%)';
       pot.style.width  = potW + 'px';
-      pot.style.height = potW + 'px';
+      pot.style.height = potH + 'px';
 
-      // Panel visibility based on scroll position
-      // Panel 1 (right): t 0.1-0.3
-      // Panel 2 (left):  t 0.3-0.5
-      // Panel 3 (right): t 0.5-0.7
-      // Panel 4 (left):  t 0.7-0.9
+      // ── Scroll-driven 360° rotation ──────────────
+      // Map scroll progress (t) to orbit angle: 2 full rotations across the scroll
+      // t goes 0→1 = 720 degrees (2 full spins)
+      const targetDeg = t * 720;
+      // model-viewer orbit: "Xdeg 75deg auto" = yaw, pitch, radius
+      pot.setAttribute('camera-orbit', `${targetDeg}deg 75deg auto`);
+
+      lastT = t;
+
+      // ── Panel visibility ──────────────────────────
       function panelOpacity(tStart, tEnd) {
         const fade = 0.08;
         if (t < tStart) return 0;
