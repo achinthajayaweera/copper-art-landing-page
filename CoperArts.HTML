@@ -273,8 +273,8 @@
     }
 
     model-viewer {
-      width: 680px;
-      height: 920px;
+      width: 860px;
+      height: 860px;
       background: transparent;
       --poster-color: transparent;
       pointer-events: auto;
@@ -892,8 +892,8 @@
         environment-image="neutral"
         exposure="1.4"
         tone-mapping="commerce"
-        camera-orbit="0deg 75deg 200%"
-        field-of-view="18deg"
+        camera-orbit="0deg 75deg 250%"
+        field-of-view="16deg"
         bounds="tight"
         interpolation-decay="200"
         style="left: 50%; transform: translateX(-50%) translateY(-50%);"
@@ -1264,8 +1264,8 @@
 
       const vw   = window.innerWidth;
       // Pot width: 720px max, but never more than 55vw
-      const potW = Math.min(720, vw * 0.55);
-      const potH = potW * 1.14; // keep aspect ratio (820/720)
+      const potW = Math.min(860, vw * 0.62);
+      const potH = potW; // square now
 
       const waypoints = [
         { t: 0,    x: (vw - potW) / 2 },           // center
@@ -1300,7 +1300,7 @@
       // t goes 0→1 = 720 degrees (2 full spins)
       const targetDeg = t * 720;
       // model-viewer orbit: "Xdeg 75deg auto" = yaw, pitch, radius
-      pot.setAttribute('camera-orbit', `${targetDeg}deg 75deg 200%`);
+      pot.setAttribute('camera-orbit', `${targetDeg}deg 75deg 250%`);
 
       lastT = t;
 
