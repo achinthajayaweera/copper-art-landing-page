@@ -273,15 +273,16 @@
     }
 
     model-viewer {
-      width: 900px;
-      height: 1000px;
+      width: 100vw;
+      height: 100vh;
       background: transparent;
       --poster-color: transparent;
       pointer-events: auto;
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      transition: left 0.08s linear;
+      top: 0;
+      left: 0 !important;
+      transform: none !important;
+      transition: none;
       filter: drop-shadow(0 0 80px rgba(184,115,51,0.45));
     }
 
@@ -290,12 +291,13 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      max-width: 380px;
+      max-width: 340px;
       transition: opacity 0.3s;
       pointer-events: none;
+      z-index: 20;
     }
-    .parallax-panel.panel-right { right: 6%; text-align: left; }
-    .parallax-panel.panel-left  { left:  6%; text-align: left; }
+    .parallax-panel.panel-right { right: 4%; text-align: left; }
+    .parallax-panel.panel-left  { left:  4%; text-align: left; }
 
     .panel-label {
       font-family: 'Cinzel', serif;
@@ -1244,18 +1246,14 @@
     revealEls.forEach(el => revealObs.observe(el));
 
     // ─── MODEL PARALLAX SCROLL ────────────────
-    const track    = document.getElementById('model-track');
-    const pot      = document.getElementById('the-pot');
-    const panel1   = document.getElementById('panel1');
-    const panel2   = document.getElementById('panel2');
-    const panel3   = document.getElementById('panel3');
-    const panel4   = document.getElementById('panel4');
+    const track  = document.getElementById('model-track');
+    const pot    = document.getElementById('the-pot');
+    const panel1 = document.getElementById('panel1');
+    const panel2 = document.getElementById('panel2');
+    const panel3 = document.getElementById('panel3');
+    const panel4 = document.getElementById('panel4');
 
     function lerp(a, b, t) { return a + (b - a) * t; }
-
-    // Track total rotation degrees driven by scroll
-    let totalRotationDeg = 0;
-    let lastT = 0;
 
     function updateParallax() {
       const rect     = track.getBoundingClientRect();
@@ -1265,49 +1263,38 @@
       const total    = trackH - viewH;
       const t        = Math.max(0, Math.min(1, scrolled / total));
 
-      const vw   = window.innerWidth;
-      // Pot width: 720px max, but never more than 55vw
-      const potW = Math.min(900, vw * 0.65);
-      const potH = potW * 1.11; // 1000/900
+      // ── Scroll-driven 360° rotation (2 full spins) ──
+      const rotateDeg = t * 720;
 
-      const waypoints = [
-        { t: 0,    x: (vw - potW) / 2 },           // center
-        { t: 0.18, x: vw * 0.04 },                  // left
-        { t: 0.38, x: vw - potW - vw * 0.04 },      // right
-        { t: 0.58, x: vw * 0.04 },                  // left
-        { t: 0.78, x: vw - potW - vw * 0.04 },      // right
-        { t: 1.0,  x: (vw - potW) / 2 },            // center
+      // ── Horizontal camera target shift: move pot left/right
+      // by shifting camera-target x offset (-0.3m = left, +0.3m = right)
+      // Waypoints for horizontal position
+      const hWaypoints = [
+        { t: 0,    x:  0.0  }, // center
+        { t: 0.18, x: -0.35 }, // left
+        { t: 0.38, x:  0.35 }, // right
+        { t: 0.58, x: -0.35 }, // left
+        { t: 0.78, x:  0.35 }, // right
+        { t: 1.0,  x:  0.0  }, // center
       ];
 
-      let seg = waypoints.length - 2;
-      for (let i = 0; i < waypoints.length - 1; i++) {
-        if (t >= waypoints[i].t && t < waypoints[i + 1].t) { seg = i; break; }
+      let seg = hWaypoints.length - 2;
+      for (let i = 0; i < hWaypoints.length - 1; i++) {
+        if (t >= hWaypoints[i].t && t < hWaypoints[i + 1].t) { seg = i; break; }
       }
-      const w0 = waypoints[seg];
-      const w1 = waypoints[seg + 1];
+      const w0 = hWaypoints[seg];
+      const w1 = hWaypoints[seg + 1];
       const localT = (t - w0.t) / (w1.t - w0.t);
       const eased  = localT < 0.5
         ? 2 * localT * localT
         : -1 + (4 - 2 * localT) * localT;
+      const xOffset = lerp(w0.x, w1.x, eased);
 
-      const potLeft = lerp(w0.x, w1.x, eased);
+      // Set rotation via camera-orbit, shift via camera-target
+      pot.setAttribute('camera-orbit', `${rotateDeg}deg 75deg auto`);
+      pot.setAttribute('camera-target', `${xOffset}m 0m 0m`);
 
-      pot.style.left   = potLeft + 'px';
-      pot.style.top    = '55%';
-      pot.style.transform = 'translateY(-50%)';
-      pot.style.width  = potW + 'px';
-      pot.style.height = potH + 'px';
-
-      // ── Scroll-driven 360° rotation ──────────────
-      // Map scroll progress (t) to orbit angle: 2 full rotations across the scroll
-      // t goes 0→1 = 720 degrees (2 full spins)
-      const targetDeg = t * 720;
-      // model-viewer orbit: "Xdeg 75deg auto" = yaw, pitch, radius
-      pot.setAttribute('camera-orbit', `${targetDeg}deg 75deg auto`);
-
-      lastT = t;
-
-      // ── Panel visibility ──────────────────────────
+      // ── Panel visibility ──
       function panelOpacity(tStart, tEnd) {
         const fade = 0.08;
         if (t < tStart) return 0;
@@ -1415,45 +1402,6 @@
       // Position update needs to target container now
       window._potEl = container;
     });
-
-    // Override position updates if fallback SVG is used
-    const origUpdate = updateParallax;
-    window.addEventListener('scroll', () => {
-      if (window._potEl) {
-        const vw = window.innerWidth;
-        const potW = 420;
-        const track  = document.getElementById('model-track');
-        const viewH  = window.innerHeight;
-        const rect   = track.getBoundingClientRect();
-        const scrolled = -rect.top;
-        const total  = track.offsetHeight - viewH;
-        const t = Math.max(0, Math.min(1, scrolled / total));
-
-        const waypoints = [
-          { t: 0,    x: (vw - potW) / 2 },
-          { t: 0.18, x: vw * 0.06 },
-          { t: 0.38, x: vw - potW - vw * 0.06 },
-          { t: 0.58, x: vw * 0.06 },
-          { t: 0.78, x: vw - potW - vw * 0.06 },
-          { t: 1.0,  x: (vw - potW) / 2 },
-        ];
-
-        let seg = waypoints.length - 2;
-        for (let i = 0; i < waypoints.length - 1; i++) {
-          if (t >= waypoints[i].t && t < waypoints[i + 1].t) { seg = i; break; }
-        }
-        const w0 = waypoints[seg];
-        const w1 = waypoints[seg + 1];
-        const localT = (t - w0.t) / (w1.t - w0.t);
-        const eased  = localT < 0.5 ? 2*localT*localT : -1+(4-2*localT)*localT;
-        const potLeft = w0.x + (w1.x - w0.x) * eased;
-
-        window._potEl.style.left  = potLeft + 'px';
-        window._potEl.style.top   = '50%';
-        window._potEl.style.transform = 'translateY(-50%)';
-        window._potEl.style.position  = 'absolute';
-      }
-    }, { passive: true });
   </script>
 
 </body>
