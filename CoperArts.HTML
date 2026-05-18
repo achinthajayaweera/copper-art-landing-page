@@ -259,7 +259,7 @@
     ────────────────────────────────────────────── */
     #model-track {
       position: relative;
-      height: 500vh; /* tall scroll container */
+      height: 600vh;
     }
 
     #model-sticky {
@@ -332,7 +332,7 @@
     ────────────────────────────────────────────── */
     #collections {
       position: relative;
-      padding: 8rem 4rem;
+      padding: 5rem 4rem;
       background: var(--dark-warm);
       overflow: hidden;
     }
@@ -461,7 +461,7 @@
        WHY US / STORY
     ────────────────────────────────────────────── */
     #story {
-      padding: 8rem 4rem;
+      padding: 5rem 4rem;
       background: var(--dark);
       position: relative;
       overflow: hidden;
@@ -560,7 +560,7 @@
        TESTIMONIALS / TRUST
     ────────────────────────────────────────────── */
     #trust {
-      padding: 7rem 4rem;
+      padding: 5rem 4rem;
       background: var(--dark-warm);
     }
 
@@ -602,7 +602,7 @@
        CONTACT / FOOTER
     ────────────────────────────────────────────── */
     #contact {
-      padding: 8rem 4rem 5rem;
+      padding: 5rem 4rem 4rem;
       background: var(--dark);
       position: relative;
       overflow: hidden;
@@ -895,13 +895,13 @@
         exposure="1.4"
         tone-mapping="commerce"
         camera-orbit="0deg 75deg auto"
-        min-camera-orbit="auto auto auto"
-        max-camera-orbit="auto auto auto"
-        field-of-view="14deg"
-        min-field-of-view="14deg"
+        camera-target="0m -0.05m 0m"
+        field-of-view="22deg"
+        min-field-of-view="22deg"
+        max-field-of-view="22deg"
         bounds="tight"
         interpolation-decay="200"
-        style="left: 50%; transform: translateX(-50%) translateY(-50%);"
+        style="left:0;top:0;transform:none;"
       ></model-viewer>
 
       <!-- Panel 1: right side -->
@@ -1271,10 +1271,10 @@
       // Waypoints for horizontal position
       const hWaypoints = [
         { t: 0,    x:  0.0  }, // center
-        { t: 0.18, x: -0.35 }, // left
-        { t: 0.38, x:  0.35 }, // right
-        { t: 0.58, x: -0.35 }, // left
-        { t: 0.78, x:  0.35 }, // right
+        { t: 0.18, x: -0.55 }, // left
+        { t: 0.38, x:  0.55 }, // right
+        { t: 0.58, x: -0.55 }, // left
+        { t: 0.78, x:  0.55 }, // right
         { t: 1.0,  x:  0.0  }, // center
       ];
 
@@ -1292,7 +1292,7 @@
 
       // Set rotation via camera-orbit, shift via camera-target
       pot.setAttribute('camera-orbit', `${rotateDeg}deg 75deg auto`);
-      pot.setAttribute('camera-target', `${xOffset}m 0m 0m`);
+      pot.setAttribute('camera-target', `${xOffset}m -0.05m 0m`);
 
       // ── Panel visibility ──
       function panelOpacity(tStart, tEnd) {
