@@ -895,10 +895,10 @@
         exposure="1.4"
         tone-mapping="commerce"
         camera-orbit="0deg 75deg auto"
-        camera-target="0m -0.05m 0m"
-        field-of-view="22deg"
-        min-field-of-view="22deg"
-        max-field-of-view="22deg"
+        camera-target="0m -0.1m 0m"
+        field-of-view="38deg"
+        min-field-of-view="38deg"
+        max-field-of-view="38deg"
         bounds="tight"
         interpolation-decay="200"
         style="left:0;top:0;transform:none;"
@@ -1292,7 +1292,7 @@
 
       // Set rotation via camera-orbit, shift via camera-target
       pot.setAttribute('camera-orbit', `${rotateDeg}deg 75deg auto`);
-      pot.setAttribute('camera-target', `${xOffset}m -0.05m 0m`);
+      pot.setAttribute('camera-target', `${xOffset}m -0.1m 0m`);
 
       // ── Panel visibility ──
       function panelOpacity(tStart, tEnd) {
