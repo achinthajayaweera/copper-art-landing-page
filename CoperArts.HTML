@@ -40,7 +40,12 @@
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--dark);
+      background-color: #100d08;
+      background-image: url('background.PNG');
+      background-size: cover;
+      background-position: top center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       color: var(--text-main);
       font-family: 'EB Garamond', Georgia, serif;
       font-size: 18px;
@@ -126,6 +131,17 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      background: transparent;
+    }
+
+    /* Dark overlay so hero text is readable */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(10,8,5,0.55);
+      z-index: 1;
+      pointer-events: none;
     }
 
     /* Radial glow behind pot */
@@ -291,40 +307,41 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      max-width: 340px;
+      max-width: 420px;
+      width: 38%;
       transition: opacity 0.3s;
       pointer-events: none;
       z-index: 20;
     }
-    .parallax-panel.panel-right { right: 4%; text-align: left; }
-    .parallax-panel.panel-left  { left:  4%; text-align: left; }
+    .parallax-panel.panel-right { right: 3%; text-align: left; }
+    .parallax-panel.panel-left  { left:  3%; text-align: left; }
 
     .panel-label {
       font-family: 'Cinzel', serif;
-      font-size: 0.6rem;
+      font-size: 0.65rem;
       letter-spacing: 0.5em;
       text-transform: uppercase;
       color: var(--copper);
-      margin-bottom: 0.8rem;
+      margin-bottom: 1rem;
     }
     .panel-heading {
       font-family: 'Cinzel Decorative', serif;
-      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-size: clamp(1.6rem, 2.8vw, 2.6rem);
       color: var(--cream);
-      line-height: 1.2;
-      margin-bottom: 1rem;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
     }
     .panel-text {
       font-family: 'EB Garamond', serif;
-      font-size: 1rem;
+      font-size: 1.1rem;
       color: var(--text-muted);
-      line-height: 1.8;
+      line-height: 1.85;
     }
     .panel-divider {
-      width: 60px;
+      width: 70px;
       height: 1px;
       background: var(--copper);
-      margin: 1.2rem 0;
+      margin: 1.4rem 0;
     }
 
     /* ──────────────────────────────────────────────
@@ -333,7 +350,7 @@
     #collections {
       position: relative;
       padding: 5rem 4rem;
-      background: var(--dark-warm);
+      background: rgba(13,11,8,0.75);
       overflow: hidden;
     }
     #collections::before {
@@ -382,7 +399,7 @@
     .card-bg {
       width: 100%;
       height: 100%;
-      background: var(--dark-mid);
+      background: rgba(13,11,8,0.6);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -462,7 +479,7 @@
     ────────────────────────────────────────────── */
     #story {
       padding: 5rem 4rem;
-      background: var(--dark);
+      background: rgba(10,8,5,0.82);
       position: relative;
       overflow: hidden;
     }
@@ -561,7 +578,7 @@
     ────────────────────────────────────────────── */
     #trust {
       padding: 5rem 4rem;
-      background: var(--dark-warm);
+      background: rgba(13,11,8,0.75);
     }
 
     .trust-inner {
@@ -603,7 +620,7 @@
     ────────────────────────────────────────────── */
     #contact {
       padding: 5rem 4rem 4rem;
-      background: var(--dark);
+      background: rgba(10,8,5,0.85);
       position: relative;
       overflow: hidden;
     }
@@ -754,7 +771,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: var(--dark);
+      background: rgba(10,8,5,0.85);
     }
     footer .footer-logo {
       font-family: 'Cinzel Decorative', serif;
@@ -895,10 +912,10 @@
         exposure="1.4"
         tone-mapping="commerce"
         camera-orbit="0deg 75deg auto"
-        camera-target="0m -0.1m 0m"
-        field-of-view="38deg"
-        min-field-of-view="38deg"
-        max-field-of-view="38deg"
+        camera-target="0m 0.25m 0m"
+        field-of-view="45deg"
+        min-field-of-view="45deg"
+        max-field-of-view="45deg"
         bounds="tight"
         interpolation-decay="200"
         style="left:0;top:0;transform:none;"
@@ -1271,10 +1288,10 @@
       // Waypoints for horizontal position
       const hWaypoints = [
         { t: 0,    x:  0.0  }, // center
-        { t: 0.18, x: -0.55 }, // left
-        { t: 0.38, x:  0.55 }, // right
-        { t: 0.58, x: -0.55 }, // left
-        { t: 0.78, x:  0.55 }, // right
+        { t: 0.18, x: -0.32 }, // left  — pot takes left 55%, text fills right 45%
+        { t: 0.38, x:  0.32 }, // right — pot takes right 55%, text fills left 45%
+        { t: 0.58, x: -0.32 }, // left
+        { t: 0.78, x:  0.32 }, // right
         { t: 1.0,  x:  0.0  }, // center
       ];
 
@@ -1292,7 +1309,7 @@
 
       // Set rotation via camera-orbit, shift via camera-target
       pot.setAttribute('camera-orbit', `${rotateDeg}deg 75deg auto`);
-      pot.setAttribute('camera-target', `${xOffset}m -0.1m 0m`);
+      pot.setAttribute('camera-target', `${xOffset}m 0.25m 0m`);
 
       // ── Panel visibility ──
       function panelOpacity(tStart, tEnd) {
