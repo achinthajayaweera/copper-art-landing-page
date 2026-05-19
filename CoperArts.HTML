@@ -10,6 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
 
+  <!-- Preload background image for performance -->
+  <link rel="preload" as="image" href="background.PNG" fetchpriority="high">
+
   <!-- model-viewer for 3D GLB -->
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
@@ -41,17 +44,25 @@
 
     body {
       background-color: #100d08;
-      background-image: url('background.PNG');
-      background-size: 100% auto;
-      background-position: top center;
-      background-repeat: repeat-y;
-      background-attachment: scroll;
       color: var(--text-main);
       font-family: 'EB Garamond', Georgia, serif;
       font-size: 18px;
       line-height: 1.7;
       overflow-x: hidden;
       cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='4' fill='%23b87333' opacity='0.8'/%3E%3C/svg%3E") 10 10, auto;
+    }
+
+    /* ── IMAGE ZONE: hero → collections → story ── */
+    #bg-image-zone {
+      position: relative;
+      background-image: url('background.PNG');
+      background-size: 100% 100%;
+      background-position: top center;
+      background-repeat: no-repeat;
+      /* GPU acceleration for smooth rendering */
+      will-change: transform;
+      transform: translateZ(0);
+      image-rendering: high-quality;
     }
 
     /* ──────────────────────────────────────────────
@@ -134,12 +145,12 @@
       background: transparent;
     }
 
-    /* Dark overlay so hero text is readable */
+    /* Subtle dark overlay so hero text is readable */
     #hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(10,8,5,0.55);
+      background: rgba(10,8,5,0.38);
       z-index: 1;
       pointer-events: none;
     }
@@ -350,7 +361,7 @@
     #collections {
       position: relative;
       padding: 5rem 4rem;
-      background: rgba(13,11,8,0.75);
+      background: rgba(10,8,5,0.45);
       overflow: hidden;
     }
     #collections::before {
@@ -479,7 +490,7 @@
     ────────────────────────────────────────────── */
     #story {
       padding: 5rem 4rem;
-      background: rgba(10,8,5,0.82);
+      background: rgba(10,8,5,0.55);
       position: relative;
       overflow: hidden;
     }
@@ -578,7 +589,7 @@
     ────────────────────────────────────────────── */
     #trust {
       padding: 5rem 4rem;
-      background: rgba(13,11,8,0.75);
+      background: var(--dark-warm);
     }
 
     .trust-inner {
@@ -620,7 +631,7 @@
     ────────────────────────────────────────────── */
     #contact {
       padding: 5rem 4rem 4rem;
-      background: rgba(10,8,5,0.85);
+      background: var(--dark);
       position: relative;
       overflow: hidden;
     }
@@ -771,7 +782,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(10,8,5,0.85);
+      background: var(--dark);
     }
     footer .footer-logo {
       font-family: 'Cinzel Decorative', serif;
@@ -857,6 +868,9 @@
       <li><a href="#contact">Visit Us</a></li>
     </ul>
   </nav>
+
+  <!-- ═══ BACKGROUND IMAGE ZONE: hero → story ═══ -->
+  <div id="bg-image-zone">
 
   <!-- ═══════════════════════════════════════════
        HERO
@@ -1139,6 +1153,11 @@
       </div>
     </div>
   </section>
+
+  <!-- Cloud fade-out at bottom of image zone -->
+  <div style="height:120px;background:linear-gradient(to bottom, transparent, #100d08);margin-top:-120px;position:relative;z-index:5;pointer-events:none;"></div>
+
+  </div><!-- /#bg-image-zone -->
 
   <!-- ═══════════════════════════════════════════
        TRUST / FEATURES
