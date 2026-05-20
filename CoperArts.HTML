@@ -856,6 +856,120 @@
 <body>
 
   <!-- ═══════════════════════════════════════════
+       LOADING SCREEN
+  ═══════════════════════════════════════════ -->
+  <div id="loader">
+    <video
+      id="loader-video"
+      src="Loading Video.WEBM"
+      autoplay
+      muted
+      playsinline
+      preload="auto"
+    ></video>
+
+    <!-- Skip button -->
+    <button id="loader-skip" onclick="skipLoader()">
+      Skip <span>→</span>
+    </button>
+
+    <!-- Bottom fade to black -->
+    <div id="loader-fade"></div>
+  </div>
+
+  <style>
+    /* ── LOADER ── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #080604;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    #loader-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    #loader-skip {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      background: transparent;
+      border: 1px solid rgba(184,115,51,0.5);
+      color: rgba(184,115,51,0.8);
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.4rem;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+      z-index: 10000;
+      opacity: 0;
+      animation: fadeIn 0.6s ease 1.5s forwards;
+    }
+    #loader-skip:hover {
+      background: rgba(184,115,51,0.15);
+      border-color: var(--copper);
+      color: var(--gold-lt);
+    }
+    #loader-fade {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 30%;
+      background: linear-gradient(to top, #080604, transparent);
+      pointer-events: none;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    /* Prevent scroll while loader is visible */
+    body.loading { overflow: hidden; }
+  </style>
+
+  <script>
+    // Lock scroll during loading
+    document.body.classList.add('loading');
+
+    const loader      = document.getElementById('loader');
+    const loaderVideo = document.getElementById('loader-video');
+
+    function hideLoader() {
+      loader.classList.add('hidden');
+      document.body.classList.remove('loading');
+      // Remove from DOM after transition
+      setTimeout(() => loader.remove(), 900);
+    }
+
+    function skipLoader() { hideLoader(); }
+
+    // Hide when video ends
+    loaderVideo.addEventListener('ended', hideLoader);
+
+    // Fallback: hide after 8s if video fails
+    const fallback = setTimeout(hideLoader, 8000);
+    loaderVideo.addEventListener('ended', () => clearTimeout(fallback));
+
+    // If video can't load at all, hide after 3s
+    loaderVideo.addEventListener('error', () => {
+      clearTimeout(fallback);
+      setTimeout(hideLoader, 3000);
+    });
+  </script>
+
+  <!-- ═══════════════════════════════════════════
        NAVIGATION
   ═══════════════════════════════════════════ -->
   <nav id="navbar">
