@@ -327,15 +327,20 @@
       transition: opacity 0.3s;
       pointer-events: none;
       z-index: 20;
-      /* Dark backdrop blur so text pops over any background */
-      background: rgba(8,6,4,0.55);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      padding: 2rem 2.2rem;
-      border-left: 1px solid rgba(184,115,51,0.3);
+      /* Apple-style glassmorphism */
+      background: rgba(20, 14, 8, 0.45);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-radius: 20px;
+      border: 1px solid rgba(184,115,51,0.25);
+      box-shadow:
+        0 8px 32px rgba(0,0,0,0.4),
+        0 1px 0 rgba(255,255,255,0.06) inset,
+        0 -1px 0 rgba(0,0,0,0.3) inset;
+      padding: 2.2rem 2.4rem;
     }
-    .parallax-panel.panel-right { right: 3%; text-align: left; border-left: 1px solid rgba(184,115,51,0.3); border-right: none; }
-    .parallax-panel.panel-left  { left:  3%; text-align: left; border-left: 1px solid rgba(184,115,51,0.3); }
+    .parallax-panel.panel-right { right: 3%; text-align: left; }
+    .parallax-panel.panel-left  { left:  3%; text-align: left; }
 
     .panel-label {
       font-family: 'Cinzel', serif;
