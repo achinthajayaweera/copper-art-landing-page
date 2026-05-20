@@ -206,14 +206,26 @@
       letter-spacing: 0.02em;
       opacity: 0;
       animation: fadeUp 1s ease 0.6s forwards;
-      text-shadow: 0 2px 20px rgba(0,0,0,1), 0 4px 40px rgba(0,0,0,0.8);
     }
     .hero-title .accent {
       background: linear-gradient(135deg, var(--gold-lt), var(--copper), var(--gold));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.9));
+      /* Yellowish-gold outer glow */
+      filter: drop-shadow(0 0 18px rgba(212,165,60,0.9))
+              drop-shadow(0 0 40px rgba(184,115,51,0.7))
+              drop-shadow(0 0 80px rgba(201,168,76,0.4));
+    }
+    .hero-title .antiques {
+      display: block;
+      color: #fff;
+      /* White outer glow */
+      text-shadow:
+        0 0 12px rgba(255,255,255,0.95),
+        0 0 30px rgba(255,255,255,0.7),
+        0 0 60px rgba(255,240,210,0.5),
+        0 0 100px rgba(255,220,160,0.3);
     }
 
     .hero-sub {
@@ -1038,8 +1050,8 @@
     <div class="hero-content">
       <p class="hero-eyebrow">✦ Battaramulla, Sri Lanka ✦</p>
       <h1 class="hero-title">
-        <span class="accent">Copper Arts</span><br/>
-        Antiques
+        <span class="accent">Copper Arts</span>
+        <span class="antiques">Antiques</span>
       </h1>
       <p class="hero-sub">Guardians of history. Curators of time.</p>
       <a href="#collections" class="hero-cta">Explore the Collection</a>
