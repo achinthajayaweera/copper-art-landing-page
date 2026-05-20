@@ -902,114 +902,307 @@
        LOADING SCREEN
   ═══════════════════════════════════════════ -->
   <div id="loader">
-    <video
-      id="loader-video"
-      src="Loading Video.WEBM"
-      autoplay
-      muted
-      playsinline
-      preload="auto"
-    ></video>
+
+    <!-- Background video -->
+    <video id="loader-video" src="Loading Video.WEBM" autoplay muted playsinline preload="auto"></video>
+
+    <!-- ── Aesthetic overlay on top of video ── -->
+    <div id="loader-overlay">
+
+      <!-- Top ornamental line -->
+      <div class="lo-line lo-line-top"></div>
+      <div class="lo-line lo-line-bottom"></div>
+
+      <!-- Corner brackets -->
+      <div class="lo-corner lo-corner-tl"></div>
+      <div class="lo-corner lo-corner-tr"></div>
+      <div class="lo-corner lo-corner-bl"></div>
+      <div class="lo-corner lo-corner-br"></div>
+
+      <!-- Centre content -->
+      <div class="lo-center">
+        <!-- Rotating ring -->
+        <div class="lo-ring-wrap">
+          <svg class="lo-ring" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(184,115,51,0.15)" stroke-width="1"/>
+            <circle cx="60" cy="60" r="54" fill="none" stroke="url(#ringGrad)" stroke-width="1.5"
+              stroke-dasharray="60 280" stroke-linecap="round"/>
+            <circle cx="60" cy="60" r="44" fill="none" stroke="rgba(201,168,76,0.1)" stroke-width="0.5"/>
+            <defs>
+              <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#c9a84c" stop-opacity="0"/>
+                <stop offset="50%" stop-color="#e8c97a" stop-opacity="1"/>
+                <stop offset="100%" stop-color="#b87333" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <!-- Inner diamond -->
+          <div class="lo-diamond">
+            <svg viewBox="0 0 40 40" width="40" height="40">
+              <path d="M20 2 L38 20 L20 38 L2 20 Z" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.7"/>
+              <path d="M20 8 L32 20 L20 32 L8 20 Z" fill="none" stroke="#b87333" stroke-width="0.5" opacity="0.5"/>
+              <circle cx="20" cy="20" r="3" fill="#c9a84c" opacity="0.9"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Brand name -->
+        <div class="lo-brand">
+          <div class="lo-brand-name">Copper Arts</div>
+          <div class="lo-brand-sub">Antiques</div>
+          <div class="lo-brand-tagline">✦ Battaramulla, Sri Lanka ✦</div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="lo-progress-wrap">
+          <div class="lo-progress-track">
+            <div class="lo-progress-bar" id="lo-bar"></div>
+          </div>
+          <div class="lo-progress-label" id="lo-pct">0%</div>
+        </div>
+      </div>
+
+    </div><!-- /#loader-overlay -->
 
     <!-- Skip button -->
-    <button id="loader-skip" onclick="skipLoader()">
-      Skip <span>→</span>
-    </button>
+    <button id="loader-skip" onclick="skipLoader()">Skip ›</button>
 
-    <!-- Bottom fade to black -->
+    <!-- Bottom vignette -->
     <div id="loader-fade"></div>
   </div>
 
   <style>
-    /* ── LOADER ── */
+    /* ══ LOADER BASE ══ */
     #loader {
       position: fixed;
       inset: 0;
       z-index: 9999;
       background: #080604;
+      overflow: hidden;
+      transition: opacity 1s ease, visibility 1s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    body.loading { overflow: hidden; }
+
+    #loader-video {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      z-index: 0;
+    }
+
+    /* ══ OVERLAY ══ */
+    #loader-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Horizontal lines */
+    .lo-line {
+      position: absolute;
+      left: 6%; right: 6%;
+      height: 1px;
+      background: linear-gradient(to right,
+        transparent,
+        rgba(184,115,51,0.6) 20%,
+        rgba(201,168,76,0.8) 50%,
+        rgba(184,115,51,0.6) 80%,
+        transparent);
+      opacity: 0;
+      animation: loLineIn 1s ease 0.5s forwards;
+    }
+    .lo-line-top  { top: 8%; }
+    .lo-line-bottom { bottom: 8%; animation-delay: 0.7s; }
+
+    /* Corner brackets */
+    .lo-corner {
+      position: absolute;
+      width: 36px; height: 36px;
+      opacity: 0;
+      animation: loLineIn 0.8s ease 0.9s forwards;
+    }
+    .lo-corner-tl { top: 6%; left: 5%; border-top: 1px solid rgba(184,115,51,0.7); border-left: 1px solid rgba(184,115,51,0.7); }
+    .lo-corner-tr { top: 6%; right: 5%; border-top: 1px solid rgba(184,115,51,0.7); border-right: 1px solid rgba(184,115,51,0.7); }
+    .lo-corner-bl { bottom: 6%; left: 5%; border-bottom: 1px solid rgba(184,115,51,0.7); border-left: 1px solid rgba(184,115,51,0.7); }
+    .lo-corner-br { bottom: 6%; right: 5%; border-bottom: 1px solid rgba(184,115,51,0.7); border-right: 1px solid rgba(184,115,51,0.7); }
+
+    /* Centre content */
+    .lo-center {
+      position: absolute;
+      bottom: 12%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      opacity: 0;
+      animation: loLineIn 1s ease 1s forwards;
+    }
+
+    /* Rotating ring */
+    .lo-ring-wrap {
+      position: relative;
+      width: 80px; height: 80px;
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+    .lo-ring {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      animation: loSpin 3s linear infinite;
+    }
+    .lo-diamond {
+      position: absolute;
+      animation: loPulse 2s ease-in-out infinite;
+    }
+
+    /* Brand text */
+    .lo-brand { text-align: center; }
+    .lo-brand-name {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.4rem;
+      color: #e8c97a;
+      letter-spacing: 0.12em;
+      text-shadow:
+        0 0 20px rgba(201,168,76,0.8),
+        0 0 50px rgba(184,115,51,0.5);
+    }
+    .lo-brand-sub {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1rem;
+      color: #fff;
+      letter-spacing: 0.25em;
+      text-shadow:
+        0 0 15px rgba(255,255,255,0.8),
+        0 0 40px rgba(255,240,210,0.4);
+      margin-top: 0.1rem;
+    }
+    .lo-brand-tagline {
+      font-family: 'Cinzel', serif;
+      font-size: 0.5rem;
+      letter-spacing: 0.5em;
+      color: rgba(184,115,51,0.8);
+      margin-top: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    /* Progress bar */
+    .lo-progress-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .lo-progress-track {
+      width: 180px;
+      height: 1px;
+      background: rgba(184,115,51,0.2);
+      position: relative;
       overflow: hidden;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
     }
-    #loader.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-    #loader-video {
-      width: 100%;
+    .lo-progress-bar {
       height: 100%;
-      object-fit: cover;
-      display: block;
+      width: 0%;
+      background: linear-gradient(to right, #b87333, #e8c97a, #b87333);
+      transition: width 0.1s linear;
+      box-shadow: 0 0 8px rgba(201,168,76,0.8);
     }
+    .lo-progress-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.5rem;
+      letter-spacing: 0.3em;
+      color: rgba(184,115,51,0.7);
+    }
+
+    /* Skip button */
     #loader-skip {
       position: absolute;
-      bottom: 2.5rem;
-      right: 2.5rem;
-      background: transparent;
-      border: 1px solid rgba(184,115,51,0.5);
-      color: rgba(184,115,51,0.8);
+      bottom: 2.5rem; right: 2.5rem;
+      z-index: 10000;
+      background: rgba(10,8,5,0.5);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(184,115,51,0.4);
+      color: rgba(201,168,76,0.9);
       font-family: 'Cinzel', serif;
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       letter-spacing: 0.35em;
       text-transform: uppercase;
       padding: 0.6rem 1.4rem;
+      border-radius: 4px;
       cursor: pointer;
-      transition: background 0.3s, color 0.3s, border-color 0.3s;
-      z-index: 10000;
+      pointer-events: auto;
       opacity: 0;
-      animation: fadeIn 0.6s ease 2s forwards;
+      transition: background 0.3s, color 0.3s;
+      animation: loLineIn 0.6s ease 2s forwards;
     }
-    #loader-skip:hover {
-      background: rgba(184,115,51,0.15);
-      border-color: var(--copper);
-      color: var(--gold-lt);
-    }
+    #loader-skip:hover { background: rgba(184,115,51,0.2); color: #e8c97a; }
+
     #loader-fade {
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      height: 30%;
-      background: linear-gradient(to top, #080604, transparent);
+      height: 25%;
+      background: linear-gradient(to top, rgba(8,6,4,0.7), transparent);
       pointer-events: none;
+      z-index: 1;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
+
+    /* ══ KEYFRAMES ══ */
+    @keyframes loLineIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    /* Prevent scroll while loader is visible */
-    body.loading { overflow: hidden; }
+    @keyframes loSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes loPulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50%       { opacity: 1;   transform: scale(1.15); }
+    }
   </style>
 
   <script>
-    // Lock scroll during loading
     document.body.classList.add('loading');
 
     const loader      = document.getElementById('loader');
     const loaderVideo = document.getElementById('loader-video');
+    const loBar       = document.getElementById('lo-bar');
+    const loPct       = document.getElementById('lo-pct');
+
+    // Animate progress bar in sync with video
+    function updateProgress() {
+      if (!loaderVideo.duration) return;
+      const pct = Math.min(100, Math.round((loaderVideo.currentTime / loaderVideo.duration) * 100));
+      loBar.style.width = pct + '%';
+      loPct.textContent = pct + '%';
+    }
+    loaderVideo.addEventListener('timeupdate', updateProgress);
 
     function hideLoader() {
-      loader.classList.add('hidden');
-      document.body.classList.remove('loading');
-      // Remove from DOM after transition
-      setTimeout(() => loader.remove(), 900);
+      // Fill bar to 100% before hiding
+      loBar.style.width = '100%';
+      loPct.textContent = '100%';
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        document.body.classList.remove('loading');
+        setTimeout(() => loader.remove(), 1100);
+      }, 300);
     }
 
     function skipLoader() { hideLoader(); }
 
-    // Hide when video ends
     loaderVideo.addEventListener('ended', hideLoader);
 
-    // Fallback: hide after 10s if video fails
     const fallback = setTimeout(hideLoader, 10000);
     loaderVideo.addEventListener('ended', () => clearTimeout(fallback));
-
-    // If video can't load at all, hide after 3s
-    loaderVideo.addEventListener('error', () => {
-      clearTimeout(fallback);
-      setTimeout(hideLoader, 3000);
-    });
+    loaderVideo.addEventListener('error', () => { clearTimeout(fallback); setTimeout(hideLoader, 3000); });
   </script>
 
   <!-- ═══════════════════════════════════════════
