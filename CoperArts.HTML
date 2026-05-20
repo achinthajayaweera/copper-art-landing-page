@@ -1033,13 +1033,12 @@
     /* Centre content */
     .lo-center {
       position: absolute;
-      bottom: 12%;
-      left: 50%;
-      transform: translateX(-50%);
+      bottom: 10%;
+      left: 5%;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 1.2rem;
+      align-items: flex-start;
+      gap: 1rem;
       opacity: 0;
       animation: loLineIn 1s ease 1s forwards;
     }
@@ -1047,7 +1046,7 @@
     /* Rotating ring */
     .lo-ring-wrap {
       position: relative;
-      width: 80px; height: 80px;
+      width: 60px; height: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1064,10 +1063,10 @@
     }
 
     /* Brand text */
-    .lo-brand { text-align: center; }
+    .lo-brand { text-align: left; }
     .lo-brand-name {
       font-family: 'Cinzel Decorative', serif;
-      font-size: 1.4rem;
+      font-size: 1rem;
       color: #e8c97a;
       letter-spacing: 0.12em;
       text-shadow:
@@ -1076,7 +1075,7 @@
     }
     .lo-brand-sub {
       font-family: 'Cinzel Decorative', serif;
-      font-size: 1rem;
+      font-size: 0.75rem;
       color: #fff;
       letter-spacing: 0.25em;
       text-shadow:
@@ -1086,10 +1085,10 @@
     }
     .lo-brand-tagline {
       font-family: 'Cinzel', serif;
-      font-size: 0.5rem;
-      letter-spacing: 0.5em;
+      font-size: 0.45rem;
+      letter-spacing: 0.4em;
       color: rgba(184,115,51,0.8);
-      margin-top: 0.5rem;
+      margin-top: 0.4rem;
       text-transform: uppercase;
     }
 
@@ -1097,11 +1096,11 @@
     .lo-progress-wrap {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       gap: 0.4rem;
     }
     .lo-progress-track {
-      width: 180px;
+      width: 160px;
       height: 1px;
       background: rgba(184,115,51,0.2);
       position: relative;
