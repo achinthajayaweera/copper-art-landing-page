@@ -457,7 +457,8 @@
       transition: transform 0.5s ease;
       position: relative;
     }
-    .collection-card:hover .card-bg { transform: scale(1.04); }
+    .collection-card:hover .card-bg img { transform: scale(1.06); }
+    .collection-card:hover .card-bg { transform: scale(1.0); }
 
     /* Decorative SVG patterns for cards */
     .card-bg::before {
@@ -1377,17 +1378,10 @@
     </div>
 
     <div class="collections-grid">
-      <!-- Card 1 -->
+      <!-- Card 1: Bronze & Copper Vessels -->
       <div class="collection-card reveal">
-        <div class="card-bg" style="background: linear-gradient(135deg, #1a1208, #2a1e10);">
-          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="60" cy="75" rx="32" ry="10" fill="#b87333" opacity="0.3"/>
-            <path d="M35 72 Q38 35 45 28 Q55 18 60 18 Q65 18 75 28 Q82 35 85 72 Z" fill="#b87333" opacity="0.7"/>
-            <ellipse cx="60" cy="72" rx="25" ry="6" fill="#d4956a" opacity="0.5"/>
-            <ellipse cx="60" cy="28" rx="15" ry="10" fill="#c9a84c" opacity="0.8"/>
-            <rect x="32" y="72" width="8" height="20" rx="2" fill="#8b5e2f" opacity="0.8"/>
-            <rect x="80" y="72" width="8" height="20" rx="2" fill="#8b5e2f" opacity="0.8"/>
-          </svg>
+        <div class="card-bg" style="background:#1a1208;">
+          <img src="https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?w=600&q=80&fit=crop" alt="Bronze vessel" style="width:100%;height:100%;object-fit:cover;opacity:0.85;transition:transform 0.5s ease;"/>
         </div>
         <div class="card-corner"></div>
         <div class="card-corner-bl"></div>
@@ -1398,16 +1392,10 @@
         </div>
       </div>
 
-      <!-- Card 2 -->
+      <!-- Card 2: Colonial Timber Furniture -->
       <div class="collection-card reveal">
-        <div class="card-bg" style="background: linear-gradient(135deg, #0f1a0f, #1a2a12);">
-          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="40" width="80" height="55" rx="2" fill="#4a3820" stroke="#b87333" stroke-width="1.5" opacity="0.8"/>
-            <rect x="28" y="20" width="64" height="25" rx="1" fill="#3a7d6e" opacity="0.6"/>
-            <line x1="20" y1="55" x2="100" y2="55" stroke="#b87333" stroke-width="0.8" opacity="0.5"/>
-            <rect x="50" y="78" width="20" height="17" fill="#2a1e10" stroke="#c9a84c" stroke-width="1"/>
-            <circle cx="60" cy="87" r="3" fill="#c9a84c" opacity="0.8"/>
-          </svg>
+        <div class="card-bg" style="background:#0f1a0f;">
+          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80&fit=crop" alt="Colonial furniture" style="width:100%;height:100%;object-fit:cover;opacity:0.85;transition:transform 0.5s ease;"/>
         </div>
         <div class="card-corner"></div>
         <div class="card-corner-bl"></div>
@@ -1418,14 +1406,10 @@
         </div>
       </div>
 
-      <!-- Card 3 -->
+      <!-- Card 3: Heritage Jewellery -->
       <div class="collection-card reveal">
-        <div class="card-bg" style="background: linear-gradient(135deg, #1a0f0f, #2a1515);">
-          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M60 15 L68 38 L93 38 L73 54 L80 77 L60 63 L40 77 L47 54 L27 38 L52 38 Z" fill="#c9a84c" opacity="0.8"/>
-            <circle cx="60" cy="60" r="18" fill="none" stroke="#b87333" stroke-width="1.5" opacity="0.5"/>
-            <circle cx="60" cy="60" r="28" fill="none" stroke="#b87333" stroke-width="0.5" opacity="0.3"/>
-          </svg>
+        <div class="card-bg" style="background:#1a0f0f;">
+          <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80&fit=crop" alt="Heritage jewellery" style="width:100%;height:100%;object-fit:cover;opacity:0.85;transition:transform 0.5s ease;"/>
         </div>
         <div class="card-corner"></div>
         <div class="card-corner-bl"></div>
@@ -1436,17 +1420,10 @@
         </div>
       </div>
 
-      <!-- Card 4 -->
+      <!-- Card 4: Ola Leaf Manuscripts -->
       <div class="collection-card reveal">
-        <div class="card-bg" style="background: linear-gradient(135deg, #0f1520, #1a2035);">
-          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="30" y="25" width="60" height="75" rx="2" fill="#e8dfc8" opacity="0.15" stroke="#b87333" stroke-width="1"/>
-            <line x1="38" y1="40" x2="82" y2="40" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
-            <line x1="38" y1="50" x2="82" y2="50" stroke="#c9a84c" stroke-width="0.8" opacity="0.3"/>
-            <line x1="38" y1="60" x2="75" y2="60" stroke="#c9a84c" stroke-width="0.8" opacity="0.3"/>
-            <line x1="38" y1="70" x2="78" y2="70" stroke="#c9a84c" stroke-width="0.8" opacity="0.3"/>
-            <circle cx="60" cy="30" r="4" fill="#b87333" opacity="0.8"/>
-          </svg>
+        <div class="card-bg" style="background:#0f1520;">
+          <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600&q=80&fit=crop" alt="Ancient manuscripts" style="width:100%;height:100%;object-fit:cover;opacity:0.85;transition:transform 0.5s ease;"/>
         </div>
         <div class="card-corner"></div>
         <div class="card-corner-bl"></div>
@@ -1457,14 +1434,10 @@
         </div>
       </div>
 
-      <!-- Card 5 -->
+      <!-- Card 5: Ancient Pottery -->
       <div class="collection-card reveal">
-        <div class="card-bg" style="background: linear-gradient(135deg, #1a1520, #0f0f1a);">
-          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M60 20 Q80 30 85 55 Q85 80 60 95 Q35 80 35 55 Q40 30 60 20Z" fill="#3a7d6e" opacity="0.4" stroke="#b87333" stroke-width="1.5"/>
-            <path d="M60 30 Q75 38 78 58 Q76 72 60 82 Q44 72 42 58 Q45 38 60 30Z" fill="#b87333" opacity="0.3"/>
-            <circle cx="60" cy="57" r="10" fill="#c9a84c" opacity="0.7"/>
-          </svg>
+        <div class="card-bg" style="background:#1a1520;">
+          <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&q=80&fit=crop" alt="Ancient pottery" style="width:100%;height:100%;object-fit:cover;opacity:0.85;transition:transform 0.5s ease;"/>
         </div>
         <div class="card-corner"></div>
         <div class="card-corner-bl"></div>
@@ -1475,14 +1448,10 @@
         </div>
       </div>
 
-      <!-- Card 6 -->
+      <!-- Card 6: Religious & Ritual Objects -->
       <div class="collection-card reveal">
-        <div class="card-bg" style="background: linear-gradient(135deg, #1a1208, #201808);">
-          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M60 15 Q70 30 85 35 Q75 50 78 65 Q65 72 60 88 Q55 72 42 65 Q45 50 35 35 Q50 30 60 15Z" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.8"/>
-            <circle cx="60" cy="52" r="12" fill="#b87333" opacity="0.5"/>
-            <path d="M52 44 L68 44 L72 60 L60 68 L48 60 Z" fill="#c9a84c" opacity="0.6"/>
-          </svg>
+        <div class="card-bg" style="background:#1a1208;">
+          <img src="https://images.unsplash.com/photo-1609710228159-0fa9bd7c0827?w=600&q=80&fit=crop" alt="Religious objects" style="width:100%;height:100%;object-fit:cover;opacity:0.85;transition:transform 0.5s ease;"/>
         </div>
         <div class="card-corner"></div>
         <div class="card-corner-bl"></div>
